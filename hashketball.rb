@@ -114,3 +114,36 @@ def big_shoe_rebounds
   }
 end
 
+def most_points_scored
+  high_score = 0
+    game_hash.each { |team, info_hash|
+    info_hash[:players].each{ |player|
+      if num_points_scored(player[:player_name]) >= high_score
+        high_score = num_points_scored(player[:player_name])
+      end
+    }
+  }
+  game_hash.each { |team, info_hash|
+    info_hash[:players].each{ |player|
+      if num_points_scored(player[:player_name]) == high_score
+        return player[:player_name]
+      end
+    }
+  }
+end
+
+def winning_team
+  home_total = 0
+  away_total = 0
+  game_hash[:home][:players].each{ |player|
+    home_total += num_points_scored(player[:player_name])
+  }
+  game_hash[:away][:players].each{ |player|
+    away_total += num_points_scored(player[:player_name])
+  }
+  if home_total > away_total
+    return game_hash[:home][:team_name]
+  else 
+    return game_hash[:away][:team_name]
+  end
+end
